@@ -2,12 +2,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 
 load_dotenv()
 
+# Get the current directory
+BASE_DIR = Path(__file__).resolve().parent
+
 # Use SQLite for development
-SQLALCHEMY_DATABASE_URL = "sqlite:///./blockport.db"
+SQLALCHEMY_DATABASE_URL = f"sqlite:///{BASE_DIR}/blockport.db"
 
 # Create engine with SQLite specific settings
 engine = create_engine(

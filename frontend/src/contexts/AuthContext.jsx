@@ -3,8 +3,10 @@ import axios from 'axios'
 
 const AuthContext = createContext(null)
 
+const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000'
+
 const api = axios.create({
-  baseURL: 'http://localhost:8000/api/v1',
+  baseURL: `${API_URL}/api/v1`,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -68,14 +70,9 @@ export function AuthProvider({ children }) {
 
   const login = async (email, password) => {
     try {
-      const formData = new FormData()
-      formData.append('username', email)
-      formData.append('password', password)
-
-      const response = await api.post('/auth/login', formData, {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
+      const response = await api.post('/auth/login', {
+        email: email,
+        password: password
       })
 
       const { access_token, refresh_token } = response.data
@@ -91,6 +88,7 @@ export function AuthProvider({ children }) {
       setError('')
       return true
     } catch (err) {
+      console.error('Login error:', err.response?.data || err.message)
       setError(err.response?.data?.detail || 'Failed to login')
       return false
     }
@@ -109,14 +107,22 @@ export function AuthProvider({ children }) {
         password: userData.password,
         confirm_password: userData.confirmPassword,
         full_name: userData.fullName,
-        role: userData.role.toLowerCase()
+        role: userData.role.toLowerCase() // Convert role to lowercase to match backend enum
       }
 
+      console.log('Sending registration data:', registrationData)
       const response = await api.post('/auth/register', registrationData)
+      console.log('Registration response:', response.data)
       
       // Auto login after registration
-      return await login(userData.email, userData.password)
+      const loginSuccess = await login(userData.email, userData.password)
+      if (!loginSuccess) {
+        setError('Registration successful but failed to log in automatically')
+        return false
+      }
+      return true
     } catch (err) {
+      console.error('Registration error:', err.response?.data || err.message)
       setError(err.response?.data?.detail || 'Failed to register')
       return false
     }
