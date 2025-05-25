@@ -12,9 +12,9 @@ from core.security import (
     generate_uuid,
     verify_token
 )
-from core.config import settings
-from core.database import get_db
-from models.user import User, UserRole
+from app.core.config import settings
+from app.core.database import get_db
+from app.models.user import User, UserRole
 from schemas.auth import (
     Token,
     TokenPayload,
@@ -22,7 +22,7 @@ from schemas.auth import (
     UserResponse,
     UserLogin
 )
-from core.rate_limit import rate_limit
+from app.core.rate_limit import rate_limit
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(
