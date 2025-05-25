@@ -2,7 +2,11 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  (import.meta.env.PROD
+    ? "https://blockport-global.onrender.com/api/v1"
+    : "http://127.0.0.1:8000/api/v1");
 
 const api = axios.create({
   baseURL: API_URL,
@@ -29,7 +33,7 @@ const useAuthStore = create(
           formData.append("username", email);
           formData.append("password", password);
 
-          const response = await api.post("/api/v1/auth/test-login", formData);
+          const response = await api.post("/auth/test-login", formData);
           const { access_token, refresh_token, user } = response.data;
 
           set({
@@ -66,10 +70,7 @@ const useAuthStore = create(
             role: userData.role?.toLowerCase() || "user",
           };
 
-          const response = await api.post(
-            "/api/v1/auth/register",
-            registrationData
-          );
+          const response = await api.post("/auth/register", registrationData);
           set({ isLoading: false });
           return response.data;
         } catch (error) {
@@ -94,7 +95,7 @@ const useAuthStore = create(
 
       refreshAccessToken: async () => {
         try {
-          const response = await api.post("/api/v1/auth/refresh", {
+          const response = await api.post("/auth/refresh", {
             refresh_token: useAuthStore.getState().refreshToken,
           });
           const { access_token } = response.data;

@@ -4,7 +4,7 @@ import axios from "axios";
 const API_URL =
   import.meta.env.VITE_API_URL ||
   (import.meta.env.PROD
-    ? "https://your-backend-domain.com/api/v1"
+    ? "https://blockport-global.onrender.com/api/v1"
     : "http://127.0.0.1:8000/api/v1");
 
 // Create axios instance with default config
