@@ -25,7 +25,7 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# Set up CORS middleware
+# Set up CORS middleware with only the Vercel frontend domain
 origins = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
