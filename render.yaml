@@ -2,8 +2,10 @@ services:
   - type: web
     name: blockport-global-api
     env: python
+    rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    autoDeploy: true
     envVars:
       - key: DATABASE_URL
         sync: false
@@ -11,5 +13,10 @@ services:
         sync: false
       - key: CORS_ORIGINS
         value: https://block-port-global.vercel.app
-    healthCheckPath: /
-    autoDeploy: true
+      - key: API_V1_STR
+        value: /api/v1
+      - key: PROJECT_NAME
+        value: BlockPort Global
+      - key: VERSION
+        value: 1.0.0
+    healthCheckPath: /health
