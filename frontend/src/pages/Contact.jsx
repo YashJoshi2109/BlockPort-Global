@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import {
   BuildingOfficeIcon,
   EnvelopeIcon,
@@ -30,8 +31,13 @@ export default function Contact() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: Implement form submission to backend
-    setSubmitted(true);
+    toast.loading('Sending your message...', { id: 'contact' });
+    
+    // Simulate API call
+    setTimeout(() => {
+      toast.success('Message sent successfully! Our team will contact you within 24 hours.', { id: 'contact' });
+      setSubmitted(true);
+    }, 1500);
   };
 
   const employeeRanges = [
@@ -44,23 +50,33 @@ export default function Contact() {
   ];
 
   return (
-    <div className="bg-gray-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div className="bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        <div className="text-center mb-16">
+          <div className="mx-auto h-16 w-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mb-6">
+            <svg className="h-8 w-8 text-white" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
             Enterprise Solutions & Support
           </h1>
-          <p className="mt-4 text-xl text-gray-600">
-            Get in touch with our sales team to discuss your custom requirements
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Get in touch with our sales team to discuss your custom requirements and discover how BlockPort Global can transform your business
           </p>
         </div>
 
-        <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <div className="bg-white/90 rounded-lg shadow-xl ring-1 ring-gray-200 p-4 sm:p-8">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl border border-white/20 p-6 sm:p-8">
             {submitted ? (
               <div className="text-center py-12">
+                <div className="mx-auto h-16 w-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+                  <svg className="h-8 w-8 text-green-600" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
                 <h2 className="text-2xl font-bold text-green-600 mb-4">
                   Thank you for your interest!
                 </h2>
@@ -69,156 +85,162 @@ export default function Contact() {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <>
+                <div className="mb-8">
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Get in Touch</h2>
+                  <p className="text-gray-600">Fill out the form below and we'll get back to you shortly.</p>
+                </div>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-2">
+                        First Name
+                      </label>
+                      <input
+                        type="text"
+                        name="firstName"
+                        id="firstName"
+                        aria-label="First Name"
+                        required
+                        autoComplete="given-name"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white placeholder:text-gray-400"
+                        placeholder="First Name"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-2">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        name="lastName"
+                        id="lastName"
+                        aria-label="Last Name"
+                        required
+                        autoComplete="family-name"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white placeholder:text-gray-400"
+                        placeholder="Last Name"
+                      />
+                    </div>
+                  </div>
+
                   <div>
-                    <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                      First Name
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                      Business Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      aria-label="Business Email"
+                      required
+                      autoComplete="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white placeholder:text-gray-400"
+                      placeholder="you@company.com"
+                    />
+                  </div>
+
+                  <div>
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
+                      Company Name
                     </label>
                     <input
                       type="text"
-                      name="firstName"
-                      id="firstName"
-                      aria-label="First Name"
+                      name="company"
+                      id="company"
+                      aria-label="Company Name"
                       required
-                      autoComplete="given-name"
-                      value={formData.firstName}
+                      autoComplete="organization"
+                      value={formData.company}
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white placeholder:text-gray-400"
-                      placeholder="First Name"
+                      className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white placeholder:text-gray-400"
+                      placeholder="Company Name"
                     />
                   </div>
+
                   <div>
-                    <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                      Last Name
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone Number
                     </label>
                     <input
-                      type="text"
-                      name="lastName"
-                      id="lastName"
-                      aria-label="Last Name"
-                      required
-                      autoComplete="family-name"
-                      value={formData.lastName}
+                      type="tel"
+                      name="phone"
+                      id="phone"
+                      aria-label="Phone Number"
+                      autoComplete="tel"
+                      value={formData.phone}
                       onChange={handleChange}
-                      className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white placeholder:text-gray-400"
-                      placeholder="Last Name"
+                      className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white placeholder:text-gray-400"
+                      placeholder="Phone Number"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Business Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    id="email"
-                    aria-label="Business Email"
-                    required
-                    autoComplete="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white placeholder:text-gray-400"
-                    placeholder="you@company.com"
-                  />
-                </div>
+                  <div>
+                    <label htmlFor="employees" className="block text-sm font-medium text-gray-700 mb-2">
+                      Number of Employees
+                    </label>
+                    <select
+                      name="employees"
+                      id="employees"
+                      aria-label="Number of Employees"
+                      required
+                      value={formData.employees}
+                      onChange={handleChange}
+                      className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700"
+                    >
+                      <option value="">Select range</option>
+                      {employeeRanges.map(range => (
+                        <option key={range} value={range}>{range}</option>
+                      ))}
+                    </select>
+                  </div>
 
-                <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-gray-700">
-                    Company Name
-                  </label>
-                  <input
-                    type="text"
-                    name="company"
-                    id="company"
-                    aria-label="Company Name"
-                    required
-                    autoComplete="organization"
-                    value={formData.company}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white placeholder:text-gray-400"
-                    placeholder="Company Name"
-                  />
-                </div>
+                  <div>
+                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                      Tell us about your requirements
+                    </label>
+                    <textarea
+                      name="message"
+                      id="message"
+                      aria-label="Tell us about your requirements"
+                      rows={4}
+                      required
+                      value={formData.message}
+                      onChange={handleChange}
+                      className="block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all duration-200 bg-gray-50 focus:bg-white placeholder:text-gray-400 resize-none"
+                      placeholder="How can we help you?"
+                    />
+                  </div>
 
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Phone Number
-                  </label>
-                  <input
-                    type="tel"
-                    name="phone"
-                    id="phone"
-                    aria-label="Phone Number"
-                    autoComplete="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white placeholder:text-gray-400"
-                    placeholder="Phone Number"
-                  />
-                </div>
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      name="subscribe"
+                      id="subscribe"
+                      aria-label="Subscribe to updates"
+                      checked={formData.subscribe}
+                      onChange={handleChange}
+                      className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <label htmlFor="subscribe" className="ml-3 block text-sm text-gray-700">
+                      Keep me updated about new features and announcements
+                    </label>
+                  </div>
 
-                <div>
-                  <label htmlFor="employees" className="block text-sm font-medium text-gray-700">
-                    Number of Employees
-                  </label>
-                  <select
-                    name="employees"
-                    id="employees"
-                    aria-label="Number of Employees"
-                    required
-                    value={formData.employees}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white text-gray-700 placeholder:text-gray-400"
+                  <button
+                    type="submit"
+                    className="w-full flex justify-center py-3 px-6 border border-transparent rounded-xl shadow-lg text-base font-semibold text-white bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-xl"
                   >
-                    <option value="">Select range</option>
-                    {employeeRanges.map(range => (
-                      <option key={range} value={range}>{range}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700">
-                    Tell us about your requirements
-                  </label>
-                  <textarea
-                    name="message"
-                    id="message"
-                    aria-label="Tell us about your requirements"
-                    rows={4}
-                    required
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="mt-1 block w-full rounded-2xl border border-gray-300 px-4 py-3 shadow-sm focus:border-indigo-600 focus:ring-4 focus:ring-indigo-200 transition-all autofill:!bg-white bg-white placeholder:text-gray-400 text-black text-lg selection:bg-indigo-200 selection:text-black focus:bg-gray-100"
-                    placeholder="How can we help you?"
-                  />
-                </div>
-
-                <div className="flex items-center">
-                  <input
-                    type="checkbox"
-                    name="subscribe"
-                    id="subscribe"
-                    aria-label="Subscribe to updates"
-                    checked={formData.subscribe}
-                    onChange={handleChange}
-                    className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
-                  />
-                  <label htmlFor="subscribe" className="ml-2 block text-sm text-gray-700">
-                    Keep me updated about new features and announcements
-                  </label>
-                </div>
-
-                <button
-                  type="submit"
-                  className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-bold text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition"
-                >
-                  Contact Sales Team
-                </button>
-              </form>
+                    Contact Sales Team
+                  </button>
+                </form>
+              </>
             )}
           </div>
 

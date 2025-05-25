@@ -33,6 +33,10 @@ origins = [
     "http://127.0.0.1:5173",
     "http://localhost:3001",  # Alternative port
     "http://127.0.0.1:3001",
+    "https://block-port-global.vercel.app",  # Production domain
+    "https://*.vercel.app",  # All Vercel preview deployments
+    "https://blockportglobal.com",  # Custom domain if any
+    "https://*.blockportglobal.com",  # Subdomains
 ]
 
 app.add_middleware(

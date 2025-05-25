@@ -37,16 +37,39 @@ export default function Home() {
   return (
     <div className="bg-white min-h-screen flex flex-col">
       {/* Hero Section */}
-      <header className="bg-gradient-to-br from-indigo-700 to-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 py-12 md:py-16 flex flex-col items-center text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4 drop-shadow-lg">BlockPort Global</h1>
-          <p className="text-lg md:text-2xl mb-6 max-w-2xl text-gray-100 font-medium">
-            The all-in-one escrow and smart contract platform for global trade.<br />
-            <span className="text-gray-200">Secure, transparent, and seamless transactions for importers, exporters, and logistics providers worldwide.</span>
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/register" className="bg-white text-indigo-700 font-bold px-8 py-3 rounded-full shadow hover:bg-indigo-50 hover:text-indigo-900 transition-all duration-200">Get Started</Link>
-            <Link to="/pricing" className="bg-indigo-600 text-white font-bold px-8 py-3 rounded-full shadow hover:bg-indigo-700 transition-all duration-200">View Pricing</Link>
+      <header className="bg-gradient-to-br from-blue-900 via-indigo-800 to-purple-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-6xl mx-auto px-4 py-16 md:py-24 flex flex-col items-center text-center">
+          <div className="mb-8">
+            <div className="inline-flex items-center px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full text-sm font-medium text-blue-200 mb-6">
+              🚀 Revolutionizing Global Trade
+            </div>
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                BlockPort
+              </span>
+              <br />
+              <span className="text-white">Global</span>
+            </h1>
+            <p className="text-lg md:text-xl lg:text-2xl mb-8 max-w-4xl text-gray-200 leading-relaxed">
+              The all-in-one escrow and smart contract platform for global trade.
+              <br className="hidden sm:block" />
+              <span className="text-blue-300 font-medium">Secure, transparent, and seamless transactions for importers, exporters, and logistics providers worldwide.</span>
+            </p>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center w-full max-w-md">
+            <Link 
+              to="/register" 
+              className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-center"
+            >
+              Get Started Free
+            </Link>
+            <Link 
+              to="/pricing" 
+              className="bg-white/10 backdrop-blur-sm hover:bg-white/20 text-white font-bold px-8 py-4 rounded-xl border border-white/20 hover:border-white/40 transition-all duration-200 text-center"
+            >
+              View Pricing
+            </Link>
           </div>
         </div>
       </header>

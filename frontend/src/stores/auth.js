@@ -61,8 +61,9 @@ const useAuthStore = create(
             email: userData.email,
             password: userData.password,
             confirm_password: userData.confirmPassword,
-            full_name: userData.fullName,
-            role: userData.role.toLowerCase(),
+            username: userData.username,
+            full_name: userData.fullName || userData.username,
+            role: userData.role?.toLowerCase() || "user",
           };
 
           const response = await api.post(
