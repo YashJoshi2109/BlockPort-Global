@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
-from core.database import engine, Base
-from api.v1.endpoints import auth, users, dashboard
-from core.config import settings
+from app.core.database import engine, Base
+from app.api.v1.endpoints import auth, users, dashboard
+from app.core.config import settings
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import sys
