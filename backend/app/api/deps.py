@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from app.core.config import settings
 from app.core.security import verify_token
-from app.db.session import SessionLocal
+from app.core.database import SessionLocal
 from app.models.user import User
 from app.schemas.auth import TokenPayload
 from app.core.permissions import Permission, has_permission

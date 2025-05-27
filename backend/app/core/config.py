@@ -16,8 +16,8 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     ALGORITHM: str = "HS256"
 
-    # Database
-    DATABASE_URL: str = "sqlite:///./blockport.db"
+    # Database - PostgreSQL configuration
+    DATABASE_URL: str = "postgresql://user:password@localhost/blockport_global"
 
     # CORS
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []

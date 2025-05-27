@@ -51,7 +51,10 @@ app.include_router(
 
 @app.get("/")
 async def root():
-    return {"message": "Welcome to BlockPort Global API"}
+    return {
+        "message": "Welcome to BlockPort Global API",
+        "version": settings.VERSION
+    }
 
 
 @app.get("/health")
