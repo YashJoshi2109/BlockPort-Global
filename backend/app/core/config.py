@@ -10,17 +10,23 @@ class Settings(BaseSettings):
     PROJECT_NAME: str = "BlockPort Global"
     VERSION: str = "1.0.0"
 
+    # Environment
+    ENVIRONMENT: str = "development"
+
     # Security
     SECRET_KEY: str = secrets.token_urlsafe(32)
+    JWT_SECRET: str = secrets.token_urlsafe(32)
+    JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     ALGORITHM: str = "HS256"
 
     # Database - PostgreSQL configuration
-    DATABASE_URL: str = "postgresql://user:password@localhost/blockport_global"
+    DATABASE_URL: str = "postgresql://blockport_global_user:Sxzyn1UBKOjRw7hY89eovoJBDg8zmkf8@dpg-d0pqn53uibrs73822m10-a/blockport_global"
 
     # CORS
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
+    CORS_ORIGINS: str = ""
 
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")
     def assemble_cors_origins(cls, v: str | List[str]) -> List[str] | str:
@@ -58,6 +64,7 @@ class Settings(BaseSettings):
     class Config:
         case_sensitive = True
         env_file = ".env"
+        extra = "allow"
 
 
 settings = Settings()

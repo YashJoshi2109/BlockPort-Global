@@ -17,8 +17,12 @@ sys.path.append(str(app_dir))
 # Load environment variables
 load_dotenv()
 
-# Create database tables
-Base.metadata.create_all(bind=engine)
+# Create database tables only in development/testing environments
+if os.getenv("ENVIRONMENT") != "production":
+    Base.metadata.create_all(bind=engine)
+    logging.info("Database tables created/verified (development mode)")
+else:
+    logging.info("Production mode: Skipping table creation")
 
 # Configure logging
 logging.basicConfig(
@@ -53,10 +57,15 @@ app.include_router(
 async def root():
     return {
         "message": "Welcome to BlockPort Global API",
-        "version": settings.VERSION
+        "version": settings.VERSION,
+        "environment": os.getenv("ENVIRONMENT", "development")
     }
 
 
 @app.get("/health")
 async def health_check():
-    return {"status": "healthy"}
+    return {
+        "status": "healthy",
+        "environment": os.getenv("ENVIRONMENT", "development"),
+        "database": "connected"
+    }

@@ -9,7 +9,7 @@ A FastAPI-based backend for BlockPort Global, providing secure escrow and smart 
 - **JWT Authentication** with refresh tokens
 - **CORS** middleware for frontend integration
 - **Alembic** database migrations
-- **Docker** ready configuration
+- **Environment-based** configuration
 - **Production** deployment on Render
 
 ## 📋 Prerequisites
@@ -38,6 +38,9 @@ cp .env.example .env
 Update the `.env` file with your configuration:
 
 ```env
+# Environment
+ENVIRONMENT=development
+
 # Database Configuration
 DATABASE_URL=postgresql://user:password@host:5432/database_name
 
@@ -64,16 +67,21 @@ pip install -r requirements.txt
 
 ### 4. Database Setup
 
-The application will automatically create tables on startup. For production, use Alembic migrations:
+#### Development Environment
+
+The application will automatically create tables on startup when `ENVIRONMENT != "production"`.
+
+#### Production Environment
+
+For production, use the initialization script or Alembic migrations:
 
 ```bash
-# Initialize Alembic (first time only)
+# Option 1: One-time initialization script
+python scripts/init_db.py
+
+# Option 2: Using Alembic (recommended)
 alembic init alembic
-
-# Create a migration
 alembic revision --autogenerate -m "Initial migration"
-
-# Apply migrations
 alembic upgrade head
 ```
 
@@ -108,6 +116,8 @@ backend/
 │   └── api/
 │       └── v1/
 │           └── endpoints/   # API route handlers
+├── scripts/
+│   └── init_db.py          # Database initialization script
 ├── alembic/                 # Database migrations
 ├── requirements.txt         # Python dependencies
 ├── alembic.ini             # Alembic configuration
@@ -132,17 +142,41 @@ services:
     rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn app.main:app --workers 4 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:$PORT
+    envVars:
+      - key: ENVIRONMENT
+        value: production
 ```
 
 ### Environment Variables for Production
 
 Set these in your deployment platform:
 
+- `ENVIRONMENT`: `production` (prevents automatic table creation)
 - `DATABASE_URL`: PostgreSQL connection string
 - `JWT_SECRET`: Secure random string (32+ characters)
 - `CORS_ORIGINS`: Your frontend domain
 
+### Initial Database Setup in Production
+
+**Option 1: One-time script (recommended for first deployment)**
+
+```bash
+# Run once after first deployment
+python scripts/init_db.py
+```
+
+**Option 2: Alembic migrations (recommended for ongoing changes)**
+
+```bash
+alembic upgrade head
+```
+
 ## 🔧 Development
+
+### Environment Modes
+
+- **Development**: `ENVIRONMENT=development` - Auto-creates tables
+- **Production**: `ENVIRONMENT=production` - Skips table creation
 
 ### Running Tests
 
