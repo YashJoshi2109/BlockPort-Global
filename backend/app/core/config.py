@@ -15,7 +15,7 @@ class Settings(BaseSettings):
 
     # Security
     SECRET_KEY: str = secrets.token_urlsafe(32)
-    JWT_SECRET: str = secrets.token_urlsafe(32)
+    JWT_SECRET: str = "_ZITkAGaincPm9nKy7qVRDjwnJFFhlqZnfXtwNdavyE"  # Fixed JWT secret
     JWT_ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
