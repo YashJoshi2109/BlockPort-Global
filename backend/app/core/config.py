@@ -21,8 +21,10 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 7
     ALGORITHM: str = "HS256"
 
-    # Database - PostgreSQL configuration
-    DATABASE_URL: str = "postgresql://blockport_global_user:Sxzyn1UBKOjRw7hY89eovoJBDg8zmkf8@dpg-d0pqn53uibrs73822m10-a/blockport_global"
+    # Database - [internal server]PostgreSQL configuration
+    # DATABASE_URL: str = "postgresql://blockport_global_user:Sxzyn1UBKOjRw7hY89eovoJBDg8zmkf8@dpg-d0pqn53uibrs73822m10-a/blockport_global"
+    # Database - Use external hostname for accessibility from outside Render
+    DATABASE_URL: str = "postgresql://blockport_global_user:Sxzyn1UBKOjRw7hY89eovoJBDg8zmkf8@dpg-d0pqn53uibrs73822m10-a.oregon-postgres.render.com/blockport_global"
 
     # CORS
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
